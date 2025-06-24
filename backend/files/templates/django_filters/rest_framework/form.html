@@ -1,0 +1,19 @@
+{% load i18n %}
+<form method="get" style="margin-bottom: 2em;">
+    {# Render all filter fields, but use a date picker for upload date fields #}
+    {% for field in filter.form %}
+        <div>
+            {{ field.label_tag }}
+            {% if field.name == 'min_uploaded_at' or field.name == 'max_uploaded_at' %}
+                <input type="date" name="{{ field.name }}" id="id_{{ field.name }}" value="{{ field.value|default_if_none:'' }}" />
+            {% else %}
+                {{ field }}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div>
+        <label for="id_search"><strong>Search filename:</strong></label>
+        <input type="text" name="search" id="id_search" value="{{ request.GET.search|default_if_none:'' }}" />
+    </div>
+    <button type="submit">{% trans 'Search & Filter' %}</button>
+</form>
